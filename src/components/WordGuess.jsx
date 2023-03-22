@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Timer from "./Timer";
 
 const WORD = "bird";
 const wordSeparator = WORD.split("");
@@ -12,6 +13,7 @@ export default function WordGuess() {
 
   return (
     <>
+      <Timer />
       <h1 className="text-4xl font-black">Guess the Word</h1>
 
       <p className="text-8xl font-extrabold uppercase tracking-widest">
