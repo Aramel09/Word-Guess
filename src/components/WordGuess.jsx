@@ -3,17 +3,32 @@ import Timer from "./Timer";
 
 const WORD = "bird";
 const wordSeparator = WORD.split("");
-console.log(wordSeparator);
 
 export default function WordGuess() {
   const [wordChange, setWordChange] = useState("_");
   const [wordChangeSecondLetter, setWordChangeSecondLetter] = useState("_");
   const [wordChangeThirdLetter, setWordChangeThirdLetter] = useState("_");
   const [wordChangeFourthLetter, setWordChangeFourthLetter] = useState("_");
+  const [timerRunning, setTimerRunning] = useState(true);
+  const [stopwatch, setStopwatch] = useState(0);
+
+  const arrayForComparing = [
+    wordChange,
+    wordChangeSecondLetter,
+    wordChangeThirdLetter,
+    wordChangeFourthLetter,
+  ];
 
   return (
     <>
-      <Timer />
+      <Timer
+        timerRunning={timerRunning}
+        setTimerRunning={setTimerRunning}
+        arrayForComparing={arrayForComparing}
+        wordSeparator={wordSeparator}
+        stopwatch={stopwatch}
+        setStopwatch={setStopwatch}
+      />
       <h1 className="text-4xl font-black">Guess the Word</h1>
 
       <p className="text-8xl font-extrabold uppercase tracking-widest">
@@ -31,6 +46,11 @@ export default function WordGuess() {
           maxLength={0}
           id="guess"
           onKeyDown={() => {
+            console.log(arrayForComparing, "Array de prubea");
+            console.log(wordSeparator, "Palabra original");
+            console.log(
+              !(arrayForComparing.toString() === wordSeparator.toString())
+            );
             if (event.key === wordSeparator[0]) {
               setWordChange(wordSeparator[0]);
             } else if (event.key === wordSeparator[1]) {
@@ -39,6 +59,8 @@ export default function WordGuess() {
               setWordChangeThirdLetter(wordSeparator[2]);
             } else if (event.key === wordSeparator[3]) {
               setWordChangeFourthLetter(wordSeparator[3]);
+            } else {
+              setStopwatch((prev) => prev + 10);
             }
           }}
         />
