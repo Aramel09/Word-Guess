@@ -1,17 +1,29 @@
-import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
-export default function Timer() {
-  const [stopwatch, setStopwatch] = useState(55);
+import { useEffect } from "react";
 
+export default function Timer({
+  timerRunning,
+  setTimerRunning,
+  arrayForComparing,
+  wordSeparator,
+  stopwatch,
+  setStopwatch,
+}) {
   useEffect(() => {
-    const interval = setInterval(() => {
-      setStopwatch((prev) => prev + 1);
-    }, 1000);
+    if (
+      timerRunning &&
+      !(arrayForComparing.toString() === wordSeparator.toString())
+    ) {
+      const interval = setInterval(() => {
+        setStopwatch((prev) => prev + 1);
+      }, 1000);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [arrayForComparing, wordSeparator]);
 
   const minutes = Math.floor(stopwatch / 60);
   const seconds = (stopwatch % 60).toString().padStart(2, "0");
@@ -25,3 +37,12 @@ export default function Timer() {
     </>
   );
 }
+
+Timer.propTypes = {
+  timerRunning: PropTypes.bool.isRequired,
+  setTimerRunning: PropTypes.func.isRequired,
+  arrayForComparing: PropTypes.array.isRequired,
+  wordSeparator: PropTypes.array.isRequired,
+  stopwatch: PropTypes.number.isRequired,
+  setStopwatch: PropTypes.func.isRequired,
+};
